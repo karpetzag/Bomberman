@@ -113,7 +113,7 @@ class Enemy: Entity, MovableEntity {
 		}
 
 		if let player = level.player, player.intersects(self) {
-			player.didCollideWithEntity(entity: self)
+			player.handleEnemyHit(entity: self)
 		}
 	}
 

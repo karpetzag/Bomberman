@@ -199,8 +199,16 @@ class Player: Entity, MovableEntity {
 		AudioPlayer.shared.stopLoopFx(name: "walkHorizontal.wav")
 	}
 
-	override func didCollideWithEntity(entity: Entity) {
-		guard entity is BombFlame && !skills.immuneToFlame || entity is Enemy && !skills.immuneToEnemies else {
+	func handleExplosionHit() {
+		guard !skills.immuneToFlame else {
+			return
+		}
+
+		self.die()
+	}
+
+	func handleEnemyHit(entity: Enemy) {
+		guard !skills.immuneToEnemies else {
 			return
 		}
 

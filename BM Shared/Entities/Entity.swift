@@ -32,8 +32,6 @@ class Entity {
 		return frame.width > 1 && frame.height > 1
 	}
 
-	func didCollideWithEntity(entity: Entity) { }
-
 	var hitBox: CGRect {
 		return self.node.frame.insetBy(dx: 1, dy: 1)
 	}

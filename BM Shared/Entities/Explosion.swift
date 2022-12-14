@@ -35,7 +35,7 @@ class Explosion: Entity {
 	override func update(dt: TimeInterval, level: GameLevel) {
 		for flame in flames {
 			if let player = level.player, flame.intersects(player) {
-				player.didCollideWithEntity(entity: flame)
+				player.handleExplosionHit()
 			}
 
 			for enemy in level.enemies {

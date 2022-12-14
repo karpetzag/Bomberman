@@ -43,6 +43,7 @@ class AudioPlayer {
 			assertionFailure("Invalid filename \(name)")
 			return
 		}
+		SKAction.playSoundFileNamed(<#T##soundFile: String##String#>, waitForCompletion: <#T##Bool#>)
 
 		if let avPlayer = try? AVAudioPlayer(contentsOf: path) {
 			avPlayer.play()
