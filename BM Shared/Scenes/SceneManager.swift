@@ -37,6 +37,7 @@ class SceneManager {
 		})
 	}
 
+	// swiftlint:disable force_cast
 	private func loadScene(id: SceneId) -> BaseScene {
 		switch id {
 		case .menu:

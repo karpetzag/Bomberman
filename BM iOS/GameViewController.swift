@@ -17,7 +17,9 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let skView = self.view as! SKView
+		guard let skView = self.view as? SKView else {
+			return
+		}
 		sceneManager = SceneManager(rootView: skView)
 		sceneManager?.presentScene(id: .menu)
     }

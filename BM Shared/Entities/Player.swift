@@ -31,8 +31,8 @@ class Player: Entity, MovableEntity {
 
 	var isDead: Bool {
 		switch state {
-			case .dead: return true
-			default: return false
+		case .dead: return true
+		default: return false
 		}
 	}
 
@@ -87,14 +87,11 @@ class Player: Entity, MovableEntity {
 
 		if input.isKeyPressed(key: .up) {
 			directionToWalk = .up
-		}
-		else if input.isKeyPressed(key: .right) {
+		} else if input.isKeyPressed(key: .right) {
 			directionToWalk = .right
-		}
-		else if input.isKeyPressed(key: .down) {
+		} else if input.isKeyPressed(key: .down) {
 			directionToWalk = .down
-		}
-		else if input.isKeyPressed(key: .left) {
+		} else if input.isKeyPressed(key: .left) {
 			directionToWalk = .left
 		} else if input.isKeyPressed(key: .destroyAllBlocks) {
 			let blocks = level.findAllBlocks()
@@ -127,7 +124,7 @@ class Player: Entity, MovableEntity {
 		guard !self.isDyingOrDead else {
 			return
 		}
-		
+
 		state = .dying
 
 		self.node.removeAllActions()

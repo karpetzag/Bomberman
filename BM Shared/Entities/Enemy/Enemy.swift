@@ -59,8 +59,14 @@ class Enemy: Entity, MovableEntity {
 
 	private lazy var moveAction = SKAction.repeatForever(
 		SKAction.sequence([
-			SKAction.animate(with: self.moveTextures(), timePerFrame: self.timePerFrame(), resize: true, restore: false),
-			SKAction.animate(with: self.moveTextures(), timePerFrame: self.timePerFrame(), resize: true, restore: false).reversed()
+			SKAction.animate(with: self.moveTextures(),
+							 timePerFrame: self.timePerFrame(),
+							 resize: true,
+							 restore: false),
+			SKAction.animate(with: self.moveTextures(),
+							 timePerFrame: self.timePerFrame(),
+							 resize: true,
+							 restore: false).reversed()
 		])
 	)
 

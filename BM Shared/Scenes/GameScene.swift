@@ -85,8 +85,8 @@ class GameScene: BaseScene {
 		self.timeLabelNode = self.statsNode?.childNode(withName: "Time") as? SKLabelNode
 
 		self.start(levelNumber: levelNumber)
-		//self.startBonusGame(afterLevel: 1)
-		//self.start(levelNumber: 1, fastStart: true)
+		// self.startBonusGame(afterLevel: 1)
+		// self.start(levelNumber: 1, fastStart: true)
     }
 
 	override func didChangeSize(_ oldSize: CGSize) {
@@ -99,7 +99,8 @@ class GameScene: BaseScene {
 			let timeX = -statsNodeWidth / 2 + timeLabel.frame.width / 2
 			timeLabel.position = CGPoint(x: timeX, y: 0.0)
 			scoreLabel.position = CGPoint(x: statsNodeWidth / 2 - scoreLabel.frame.width / 2 - 10, y: 0.0)
-			lifeLabel.position = CGPoint(x: scoreLabel.position.x - lifeLabel.frame.width - scoreLabel.frame.width / 2 - 10, y: 0.0)
+			lifeLabel.position = CGPoint(x: scoreLabel.position.x - lifeLabel.frame.width - scoreLabel.frame.width / 2 - 10,
+										 y: 0.0)
 		}
 		self.resetCameraConstraints()
 	}
@@ -228,7 +229,6 @@ class GameScene: BaseScene {
 		}
 	}
 
-
 	private func resetCameraConstraints() {
 		guard self.player != nil && self.tilemapData != nil  else {
 			return
@@ -333,13 +333,13 @@ extension GameScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
-    
+
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
 
     }
@@ -358,4 +358,3 @@ extension GameScene {
 	}
 }
 #endif
-

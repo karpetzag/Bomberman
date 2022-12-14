@@ -16,8 +16,10 @@ class GameViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let skView = self.view as! SKView
+
+		guard let skView = self.view as? SKView else {
+			return
+		}
 		sceneManager = SceneManager(rootView: skView)
 		sceneManager?.presentScene(id: .menu)
 		sceneManager?.sceneDidChangeHandler = { [weak self] in
@@ -29,7 +31,7 @@ class GameViewController: NSViewController {
 
 	override func viewDidLayout() {
 		super.viewDidLayout()
-	
+
 		self.updateSceneSize()
 	}
 
@@ -39,10 +41,11 @@ class GameViewController: NSViewController {
 		let ratio = screenSize.width / screenSize.height
 		let width = min(CGFloat(minHeight) * ratio, 850)
 		let size = CGSize(width: width, height: CGFloat(minHeight))
-		let skView = self.view as! SKView
+		guard let skView = self.view as? SKView else {
+			return
+		}
 		DispatchQueue.main.async {
 			skView.scene?.size = size
 		}
 	}
 }
-

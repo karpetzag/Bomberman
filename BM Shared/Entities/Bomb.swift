@@ -19,10 +19,12 @@ class Bomb: Entity {
 	var timeLeft: TimeInterval
 	private(set) var isTicking = false
 
-	init(time: TimeInterval,
-		 explosionRadius: Int,
-		 position: TilePosition,
-		 orderNumber: Int) {
+	init(
+		time: TimeInterval,
+		explosionRadius: Int,
+		position: TilePosition,
+		orderNumber: Int
+	) {
 		self.explosionRadius = explosionRadius
 		self.position = position
 		self.timeLeft = time

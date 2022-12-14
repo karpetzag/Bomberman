@@ -25,7 +25,7 @@ class Movement: MovementStategy {
 class RandomMovement: Movement {
 
 	override func update(dt: TimeInterval, entity: MovableEntity, level: GameLevel) {
-		if (!level.move(entity: entity, direction: direction, speed: entity.speed, dt: dt))  {
+		if !level.move(entity: entity, direction: direction, speed: entity.speed, dt: dt) {
 			direction = Direction.allCases.randomElement()!
 		}
 	}

@@ -1,0 +1,16 @@
+excluded:
+
+disabled_rules:
+  - identifier_name
+  - cyclomatic_complexity
+  - function_body_length
+  - file_length
+  - type_body_length
+  
+analyzer_rules:
+  - explicit_self
+  - unused_declaration
+
+warning_threshold: 1
+
+indentation: tabs

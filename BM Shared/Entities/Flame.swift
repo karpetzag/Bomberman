@@ -58,7 +58,6 @@ class BombFlame: Entity {
 			part.position.x += CGFloat(CGFloat(i) * size.width)
 		}
 
-
 		switch direction {
 		case .left:
 			self.node.xScale = -1

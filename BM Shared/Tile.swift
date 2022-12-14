@@ -15,9 +15,11 @@ enum TileType {
 typealias Tiles = [[TileType]]
 
 struct TilePosition: Hashable {
-	var row,column: Int
 
-	static func +(position: TilePosition, direction: Direction) -> TilePosition {
+	var row: Int
+	var column: Int
+
+	static func + (position: TilePosition, direction: Direction) -> TilePosition {
 		switch direction {
 		case .right: return TilePosition(row: position.row, column: position.column + 1)
 		case .left: return TilePosition(row: position.row, column: position.column - 1)

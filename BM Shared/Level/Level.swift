@@ -146,10 +146,7 @@ class GameLevel {
 	}
 
 	@discardableResult
-	func move(entity: MovableEntity,
-			  direction: Direction,
-			  speed: CGFloat,
-			  dt: TimeInterval) -> Bool {
+	func move(entity: MovableEntity, direction: Direction, speed: CGFloat, dt: TimeInterval) -> Bool {
 		var updatedCollisionRect = entity.hitBox
 
 		var x: CGFloat = 0
@@ -164,7 +161,7 @@ class GameLevel {
 		case .right: x = distance
 		}
 
-		updatedCollisionRect = updatedCollisionRect.offsetBy(dx: x , dy: y)
+		updatedCollisionRect = updatedCollisionRect.offsetBy(dx: x, dy: y)
 		let tilesToCollide = Set(self.tilesForFrame(updatedCollisionRect, direction: direction))
 
 		let currentTileColumn = tileMap.tileColumnIndex(fromPosition: entity.node.position)
@@ -177,8 +174,9 @@ class GameLevel {
 			let tile = self.tileAt(position: position)
 			if tile == .block && !entity.canPassBlocks || tile == .wall {
 				let index = !y.isZero ? (y > 0 ? 1 : -1) : x > 0 ? 1 : -1
-				let nextTile = !y.isZero ? tiles[currentTileColumn][currentTileRow + index] : tiles[currentTileColumn + index][currentTileRow]
-				if nextTile == .empty || (nextTile == .block && entity.canPassBlocks){
+				let nextTile = !y.isZero ? tiles[currentTileColumn][currentTileRow + index]
+				: tiles[currentTileColumn + index][currentTileRow]
+				if nextTile == .empty || (nextTile == .block && entity.canPassBlocks) {
 					if y.isZero {
 						let direction = position.row < currentTileRow ? Direction.up : Direction.down
 						entity.node.position.y += direction == .up ? distance : -distance
@@ -231,7 +229,7 @@ class GameLevel {
 		guard self.explosions[area.center] == nil else {
 			return
 		}
-		
+
 		let explosion = Explosion(area: area)
 		let tileSize = self.tileMap.tileSize.width / 2
 		explosion.flames.forEach({
@@ -308,7 +306,7 @@ class GameLevel {
 
 		var positions = [TilePosition]()
 		for column in 0..<numberOfColumns {
-			for row in 0..<numberOfRows  {
+			for row in 0..<numberOfRows {
 				let tile = tiles[column][row]
 				if tile == .empty {
 					let tilePosition = TilePosition(row: row, column: column)
@@ -408,7 +406,7 @@ class GameLevel {
 		let map = tileMapNodeData.tileMap
 
 		for column in 0..<numberOfColumns {
-			for row in 0..<numberOfRows  {
+			for row in 0..<numberOfRows {
 				let tile = tiles[column][row]
 				switch tile {
 				case .block:
@@ -422,12 +420,12 @@ class GameLevel {
 		}
 	}
 
-	private func forEachTile(handler: (TilePosition) -> Void) -> Void {
+	private func forEachTile(handler: (TilePosition) -> Void) {
 		let numberOfColumns = tileMapNodeData.tileMap.numberOfColumns
 		let numberOfRows = tileMapNodeData.tileMap.numberOfRows
 
 		for column in 0..<numberOfColumns {
-			for row in 0..<numberOfRows  {
+			for row in 0..<numberOfRows {
 				handler(TilePosition(row: row, column: column))
 			}
 		}

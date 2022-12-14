@@ -63,10 +63,7 @@ class Game {
 	private(set) var timeLeft: TimeInterval = GameConfiguration.gameDuration
 	private(set) var isCompleted = false
 
-	init(player: Player,
-		 progress: GameProgress,
-		 level: GameLevel,
-		 layout: LevelLayout) {
+	init(player: Player, progress: GameProgress, level: GameLevel, layout: LevelLayout) {
 		self.player = player
 		self.level = level
 		self.layout = layout

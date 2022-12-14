@@ -26,7 +26,6 @@ struct KeyState: OptionSet {
 	static let killAllEnemies = KeyState(rawValue: 1 << 9)
 }
 
-
 class Input {
 
 	private var controlsState = KeyState()
@@ -38,7 +37,7 @@ class Input {
 	#if !os(iOS)
 	func handleKeyUp(event: NSEvent) {
 		switch event.keyCode {
-        case 126:
+		case 126:
 			controlsState.remove(.up)
 		case 124:
 			controlsState.remove(.right)
@@ -58,14 +57,14 @@ class Input {
 			controlsState.remove(.destroyAllBlocks)
 		case 28:
 			controlsState.remove(.killAllEnemies)
-        default:
-            print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
-        }
+		default:
+			print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
+		}
 	}
 
 	func handleKeyDown(event: NSEvent) {
 		switch event.keyCode {
-        case 126:
+		case 126:
 			controlsState.insert(.up)
 		case 124:
 			controlsState.insert(.right)
@@ -85,9 +84,9 @@ class Input {
 			controlsState.insert(.destroyAllBlocks)
 		case 28:
 			controlsState.insert(.killAllEnemies)
-        default:
-            print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
-        }
+		default:
+			print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
+		}
 	}
 	#endif
 }

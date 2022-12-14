@@ -44,7 +44,7 @@ struct LevelParameters {
 					   .minvo: Int.random(in: 2...3),
 					   .kondoria: Int.random(in: 2...5),
 					   .pass: Int.random(in: 3...5),
-					   .ovapi: Int.random(in: 3...5),
+					   .ovapi: Int.random(in: 3...5)
 			]
 		case 41...49:
 			blocksDensity += 0.5
@@ -53,7 +53,7 @@ struct LevelParameters {
 					   .kondoria: Int.random(in: 2...5),
 					   .pass: Int.random(in: 2...5),
 					   .ovapi: Int.random(in: 2...5),
-					   .balloom: Int.random(in: 2...5),
+					   .balloom: Int.random(in: 2...5)
 			]
 		case 50:
 			blocksDensity += 0.55
@@ -61,7 +61,7 @@ struct LevelParameters {
 					   .minvo: 5,
 					   .kondoria: 5,
 					   .pass: 3,
-					   .pontan: 4,
+					   .pontan: 4
 			]
 		default:
 			enemies = [:]
@@ -116,8 +116,12 @@ struct LevelLayout {
 	static func generateBonusGameLayout(numberOfColumns: Int, numberOfRows: Int, enemies: [Enemy.Kind]) -> LevelLayout {
 		var tiles = Array(repeating: [TileType](repeating: .empty, count: numberOfRows), count: numberOfColumns)
 		for column in (0..<numberOfColumns) {
-			for row in 0..<numberOfRows  {
-				if (column % 2 == 0 && row % 2 == 0) || column == 0 || row == 0 || column == numberOfColumns - 1 || row == numberOfRows - 1 {
+			for row in 0..<numberOfRows {
+				if (column % 2 == 0 && row % 2 == 0)
+					|| column == 0
+					|| row == 0
+					|| column == numberOfColumns - 1
+					|| row == numberOfRows - 1 {
 					tiles[column][row] = .wall
 				}
 			}
@@ -133,7 +137,7 @@ struct LevelLayout {
 		var numberOfColumns = numberOfColumns
 		var numberOfRows = numberOfRows
 
-		if numberOfRows < minNumberOfRows || numberOfColumns < minNumberOfColumns  {
+		if numberOfRows < minNumberOfRows || numberOfColumns < minNumberOfColumns {
 			assertionFailure("Invalid number of columns and rows")
 			numberOfColumns = minNumberOfColumns
 			numberOfRows = minNumberOfRows
@@ -147,21 +151,24 @@ struct LevelLayout {
 
 		var blocksPositions = [TilePosition]()
 		for column in (0..<numberOfColumns) {
-			for row in 0..<numberOfRows  {
-				if (column % 2 == 0 && row % 2 == 0) || column == 0 || row == 0 || column == numberOfColumns - 1 || row == numberOfRows - 1 {
+			for row in 0..<numberOfRows {
+				if (column % 2 == 0 && row % 2 == 0)
+					|| column == 0
+					|| row == 0
+					|| column == numberOfColumns - 1
+					|| row == numberOfRows - 1 {
 					tiles[column][row] = .wall
 				} else if (column < playerSafeAreaWidth && row == 1) || (column == 1 && row < playerSafeAreaHeight) {
 					continue
-				}
-				else if Int.random(in: 0..<100) < Int(parameters.blocksDensity * 100) {
+				} else if Int.random(in: 0..<100) < Int(parameters.blocksDensity * 100) {
 					tiles[column][row] = .block
 					blocksPositions.append(.init(row: row, column: column))
 				}
 			}
 		}
 
-		let xPositions = (playerSafeAreaWidth..<numberOfColumns - 1).filter{ $0 % 2 != 0 }
-		let yPositions = (playerSafeAreaHeight..<numberOfRows - 1).filter{ $0 % 2 != 0 }
+		let xPositions = (playerSafeAreaWidth..<numberOfColumns - 1).filter { $0 % 2 != 0 }
+		let yPositions = (playerSafeAreaHeight..<numberOfRows - 1).filter { $0 % 2 != 0 }
 
 		var enemyPositions = [TilePosition]()
 		let numberOfEnemies = parameters.numberOfEnemiesPerKind.reduce(0, { $0 + $1.value })

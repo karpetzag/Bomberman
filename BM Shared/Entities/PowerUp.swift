@@ -30,7 +30,7 @@ enum PowerUpType: CaseIterable {
 		}
 	}
 }
- 
+
 class PowerUp: Entity {
 
 	let type: PowerUpType
