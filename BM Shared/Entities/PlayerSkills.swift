@@ -22,12 +22,12 @@ class PlayerSkills {
 	}
 
 	var speed = Speed.fast
-	var hasDetonator = true
-	var immuneToFlame = true
+	var hasDetonator = false
+	var immuneToFlame = false
 	var canWalkThroughBombs = false
-	var canWalkThroughBlocks = true
-	var numberOfBombs = 12
-	var explosionRadius = 12
+	var canWalkThroughBlocks = false
+	var numberOfBombs = 1
+	var explosionRadius = 3
 	var immuneToEnemies = false
 
 	func makeCopyForBonusLevel() -> PlayerSkills {

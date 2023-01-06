@@ -13,6 +13,7 @@ class MenuScene: BaseScene {
 	override func sceneDidLoad() {
 		super.sceneDidLoad()
 
+		AudioPlayer.shared.preloadSounds(names: SoundName.allCases.map { $0.rawValue })
 		AudioPlayer.shared.playMusic(name: SoundName.titleScreen.rawValue)
 	}
 

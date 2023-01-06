@@ -18,12 +18,12 @@ class Enemy: Entity, MovableEntity {
 			switch self {
 			case .balloom: return 100
 			case .dall: return 300
-			case .oneal: return 312
-			case .minvo: return 100
-			case .kondoria: return 200
-			case .ovapi: return 200
+			case .oneal: return 399
+			case .minvo: return 450
+			case .kondoria: return 550
+			case .ovapi: return 300
 			case .pass: return 400
-			case .pontan: return 500
+			case .pontan: return 800
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SoundName: String {
+enum SoundName: String, CaseIterable {
 
 	case stageComplete = "stage_complete.mp3"
 	case lifeLost = "life_lost.m4a"
@@ -22,4 +22,8 @@ enum SoundName: String {
 	case placeBomb = "place_bomb.wav"
 	case gameOver = "game_over.mp3"
 	case bonusStage = "bonus_stage.mp3"
+	case walkHorizontal = "walkHorizontal.wav"
+	case walkVertical = "walkVertical.wav"
+	case playerDeath = "player_death.wav"
+
 }

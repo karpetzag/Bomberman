@@ -11,43 +11,54 @@ import AVFoundation
 
 class AudioPlayer {
 
+	static let shared = AudioPlayer()
+
 	var isFxMuted = false
 
 	var isMusicMuted = false
 
-	static let shared = AudioPlayer()
+	private let engine = AVAudioEngine()
 
-	private var musicPlayer: AVAudioPlayer?
+	private var backgroundMusicNode = AVAudioPlayerNode()
 
-	private var playersByFxName = [String: AVAudioPlayer]()
+	private var nodes = [AVAudioPlayerNode]()
+	private var currentNodeIndex = 0
 
-	private var extraPlayersByFxName = [String: AVAudioPlayer]()
+	private var loopNodesPerSoundname = [String: AVAudioPlayerNode]()
 
-	private var fxLoopPlayersByName = [String: AVAudioPlayer]()
+	private let mixerNode = AVAudioMixerNode()
+
+	private var bufferPerSoundname = [String: AVAudioPCMBuffer]()
+
+	init() {
+		self.engine.attach(self.mixerNode)
+		self.engine.connect(self.mixerNode, to: self.engine.outputNode, format: nil)
+		self.engine.attach(self.backgroundMusicNode)
+		self.engine.connect(self.backgroundMusicNode, to: self.mixerNode, format: nil)
+
+		try? engine.start()
+
+		let maxNodes = 15
+		self.nodes = self.makeNodes(count: maxNodes)
+	}
+
+	func preloadSounds(names: [String]) {
+		names.forEach { self.loadSound(name: $0) }
+	}
 
 	func playFx(name: String) {
-		guard !isFxMuted else {
+		guard !self.isFxMuted else {
 			return
 		}
 
-		if let player = playersByFxName[name] {
-			if player.isPlaying {
-				playWithExtraPlayer(name: name, attempt: 0)
-			} else {
-				player.play()
-			}
+		guard let buffer = self.bufferPerSoundname[name] ?? self.loadSound(name: name) else {
 			return
 		}
 
-		guard let path = Bundle.main.url(forResource: name, withExtension: nil) else {
-			assertionFailure("Invalid filename \(name)")
-			return
-		}
+		self.currentNodeIndex = (self.currentNodeIndex + 1) % self.nodes.count
+		let node = self.nodes[currentNodeIndex]
 
-		if let avPlayer = try? AVAudioPlayer(contentsOf: path) {
-			avPlayer.play()
-			playersByFxName[name] = avPlayer
-		}
+		node.scheduleBuffer(buffer, at: nil)
 	}
 
 	func playLoopFx(name: String) {
@@ -55,75 +66,82 @@ class AudioPlayer {
 			return
 		}
 
-		if let player = fxLoopPlayersByName[name] {
-			if player.isPlaying {
-				return
-			} else {
-				player.play()
-			}
+		guard let buffer = self.bufferPerSoundname[name] ?? self.loadSound(name: name) else {
 			return
 		}
 
-		guard let path = Bundle.main.url(forResource: name, withExtension: nil) else {
-			assertionFailure("Invalid filename \(name)")
-			return
+		var node = self.loopNodesPerSoundname[name]
+		if node == nil {
+			let newNode = self.makeNode()
+			self.loopNodesPerSoundname[name] = newNode
+			node = newNode
 		}
 
-		if let avPlayer = try? AVAudioPlayer(contentsOf: path) {
-			avPlayer.numberOfLoops = -1
-			avPlayer.play()
-			fxLoopPlayersByName[name] = avPlayer
-		}
+		node?.scheduleBuffer(buffer, at: nil, options: .loops)
+		node?.play()
 	}
 
 	func stopLoopFx(name: String) {
-		let player = fxLoopPlayersByName[name]
-		player?.stop()
+		self.loopNodesPerSoundname[name]?.stop()
 	}
 
 	func playMusic(name: String) {
-		guard !isMusicMuted else {
+		guard !self.isMusicMuted else {
 			return
 		}
-		stopMusic()
-		guard let path = Bundle.main.url(forResource: name, withExtension: nil) else {
-			assertionFailure("Invalid filename \(name)")
+
+		self.stopMusic()
+
+		guard let audioFileBuffer = self.bufferPerSoundname[name] ?? self.loadSound(name: name) else {
 			return
 		}
-		let avPlayer = try? AVAudioPlayer(contentsOf: path)
-		avPlayer?.numberOfLoops = -1
-		avPlayer?.play()
-		musicPlayer = avPlayer
+
+		self.backgroundMusicNode.scheduleBuffer(audioFileBuffer, at: nil, options: .loops)
+		self.backgroundMusicNode.play()
 	}
 
 	func stopMusic() {
-		musicPlayer?.stop()
+		self.backgroundMusicNode.stop()
 	}
 
-	private func playWithExtraPlayer(name: String, attempt: Int) {
-		let maxAttempt = 10
-		guard attempt < maxAttempt else {
-			return
+	private func makeNodes(count: Int) -> [AVAudioPlayerNode] {
+		var nodes = [AVAudioPlayerNode]()
+		for _ in 0..<count {
+			nodes.append(self.makeNode())
 		}
 
-		let key = name + "\(attempt)"
-		if let player = extraPlayersByFxName[key] {
-			if player.isPlaying {
-				playWithExtraPlayer(name: name, attempt: attempt + 1)
-			} else {
-				player.play()
-			}
-			return
-		}
+		return nodes
+	}
 
+	private func makeNode() -> AVAudioPlayerNode {
+		let playerNode = AVAudioPlayerNode()
+		self.engine.attach(playerNode)
+		self.engine.connect(playerNode, to: self.mixerNode, format: nil)
+		playerNode.play()
+		return playerNode
+	}
+
+	@discardableResult
+	private func loadSound(name: String) -> AVAudioPCMBuffer? {
 		guard let path = Bundle.main.url(forResource: name, withExtension: nil) else {
 			assertionFailure("Invalid filename \(name)")
-			return
+			return nil
 		}
 
-		if let avPlayer = try? AVAudioPlayer(contentsOf: path) {
-			avPlayer.play()
-			extraPlayersByFxName[key] = avPlayer
+		guard let file = try? AVAudioFile(forReading: path) else {
+			return nil
 		}
+
+		guard let audioFileBuffer = AVAudioPCMBuffer(
+			pcmFormat: file.processingFormat,
+			frameCapacity: AVAudioFrameCount(file.length)
+		) else {
+			return nil
+		}
+
+		try? file.read(into: audioFileBuffer)
+		self.bufferPerSoundname[name] = audioFileBuffer
+
+		return audioFileBuffer
 	}
 }

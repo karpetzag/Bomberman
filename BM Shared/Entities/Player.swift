@@ -125,11 +125,11 @@ class Player: Entity, MovableEntity {
 			return
 		}
 
-		state = .dying
+		self.state = .dying
 
 		self.node.removeAllActions()
 		self.stopWalkSound()
-		AudioPlayer.shared.playFx(name: "player_death.wav")
+		AudioPlayer.shared.playFx(name: SoundName.playerDeath.rawValue)
 
 		self.node.run(.animate(with: TextureSource.Player.death, timePerFrame: 0.2)) {
 			self.state = .dead
@@ -186,17 +186,17 @@ class Player: Entity, MovableEntity {
 	private func playWalkSound(direction: Direction) {
 		switch direction {
 		case .down, .up:
-			AudioPlayer.shared.stopLoopFx(name: "walkHorizontal.wav")
-			AudioPlayer.shared.playLoopFx(name: "walkVertical.wav")
+			AudioPlayer.shared.stopLoopFx(name: SoundName.walkHorizontal.rawValue)
+			AudioPlayer.shared.playLoopFx(name: SoundName.walkVertical.rawValue)
 		case .left, .right:
-			AudioPlayer.shared.stopLoopFx(name: "walkVertical.wav")
-			AudioPlayer.shared.playLoopFx(name: "walkHorizontal.wav")
+			AudioPlayer.shared.stopLoopFx(name: SoundName.walkVertical.rawValue)
+			AudioPlayer.shared.playLoopFx(name: SoundName.walkHorizontal.rawValue)
 		}
 	}
 
 	private func stopWalkSound() {
-		AudioPlayer.shared.stopLoopFx(name: "walkVertical.wav")
-		AudioPlayer.shared.stopLoopFx(name: "walkHorizontal.wav")
+		AudioPlayer.shared.stopLoopFx(name: SoundName.walkVertical.rawValue)
+		AudioPlayer.shared.stopLoopFx(name: SoundName.walkHorizontal.rawValue)
 	}
 
 	func handleExplosionHit() {

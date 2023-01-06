@@ -19,7 +19,6 @@ struct LevelParameters {
 		switch levelNumber {
 		case 1:
 			enemies = [.balloom: 10]
-			blocksDensity += 0.5
 		case 2...4:
 			blocksDensity += 0.1
 			enemies = [.balloom: 4, .oneal: 2]
@@ -47,7 +46,7 @@ struct LevelParameters {
 					   .ovapi: Int.random(in: 3...5)
 			]
 		case 41...49:
-			blocksDensity += 0.5
+			blocksDensity += 0.45
 			enemies = [
 					   .minvo: Int.random(in: 2...3),
 					   .kondoria: Int.random(in: 2...5),
@@ -56,7 +55,7 @@ struct LevelParameters {
 					   .balloom: Int.random(in: 2...5)
 			]
 		case 50:
-			blocksDensity += 0.55
+			blocksDensity += 0.5
 			enemies = [
 					   .minvo: 5,
 					   .kondoria: 5,
