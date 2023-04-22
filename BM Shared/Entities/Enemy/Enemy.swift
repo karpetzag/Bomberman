@@ -10,7 +10,7 @@ import SpriteKit
 
 class Enemy: Entity, MovableEntity {
 
-	enum Kind {
+	enum Kind: CaseIterable {
 		// names from nes game
 		case balloom, oneal, dall, minvo, kondoria, ovapi, pass, pontan
 
@@ -18,7 +18,7 @@ class Enemy: Entity, MovableEntity {
 			switch self {
 			case .balloom: return 100
 			case .dall: return 300
-			case .oneal: return 399
+			case .oneal: return 350
 			case .minvo: return 450
 			case .kondoria: return 550
 			case .ovapi: return 300
@@ -75,10 +75,13 @@ class Enemy: Entity, MovableEntity {
 	}
 
 	func start() {
-		node.run(moveAction)
+		self.node.run(moveAction)
 	}
 
 	func die() {
+		guard !self.isDead else {
+			return
+		}
 		self.isDead = true
 		self.node.removeAllActions()
 		self.node.texture = self.deathTexture()

@@ -51,6 +51,7 @@ class Input {
 			controlsState.remove(.useDetonator)
 		case 35:
 			controlsState.remove(.pause)
+		// debug
 		case 29:
 			controlsState.remove(.skipLevel)
 		case 25:

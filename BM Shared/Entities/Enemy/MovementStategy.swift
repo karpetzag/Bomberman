@@ -59,7 +59,8 @@ class ChaseMovement: Movement {
 			return
 		}
 
-		guard level.playerPosition.distance(to: currentPosition) < 5 else {
+		let chaseDistance: Float = 5
+		guard level.playerPosition.distance(to: currentPosition) < chaseDistance else {
 			updateWithDefaultMovement()
 			return
 		}

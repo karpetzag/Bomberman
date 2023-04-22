@@ -25,5 +25,6 @@ enum SoundName: String, CaseIterable {
 	case walkHorizontal = "walkHorizontal.wav"
 	case walkVertical = "walkVertical.wav"
 	case playerDeath = "player_death.wav"
+	case explosion = "explosion.mp3"
 
 }

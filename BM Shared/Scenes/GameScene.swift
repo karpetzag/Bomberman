@@ -194,14 +194,16 @@ class GameScene: BaseScene {
 
 			let progress = GameProgress.makeInitialProgres()
 
-			layout = LevelLayout.generateBonusGameLayout(numberOfColumns: tilemapData.tileMap.numberOfColumns,
-														 numberOfRows: tilemapData.tileMap.numberOfRows,
-														 enemies: [.dall])
+			layout = LevelLayout.generateBonusGameLayout(
+				numberOfColumns: tilemapData.tileMap.numberOfColumns,
+				numberOfRows: tilemapData.tileMap.numberOfRows,
+				level: level
+			)
 			let level = GameLevel(tiles: layout.tiles, tileMapNodeData: tilemapData, layout: layout)
 
 			let skills = self.skills.makeCopyForBonusLevel()
 			self.player = Player(input: input, skills: skills, level: level)
-			let game = BonusGame(player: player, progress: progress, level: level, layout: layout)
+			let game = BonusGame(player: player, level: level, layout: layout)
 			game.delegate = self
 			game.start()
 
@@ -211,7 +213,7 @@ class GameScene: BaseScene {
 			resetCameraConstraints()
 		}
 
-		showLevelIntro(title: "BONUS STAGE") {
+		self.showLevelIntro(title: "BONUS STAGE") {
 			restart()
 		}
 	}

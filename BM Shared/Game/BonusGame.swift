@@ -38,7 +38,7 @@ class BonusGame {
 		return positions
 	}()
 
-	init(player: Player, progress: GameProgress, level: GameLevel, layout: LevelLayout) {
+	init(player: Player, level: GameLevel, layout: LevelLayout) {
 		self.player = player
 		self.level = level
 		self.layout = layout
@@ -87,6 +87,10 @@ class BonusGame {
 			return
 		}
 
-		self.level.addEnemy(.init(kind: .dall), row: position.row, column: position.column)
+		self.level.addEnemy(
+			.init(kind: self.layout.enemiesKind.first ?? .balloom),
+			row: position.row,
+			column: position.column
+		)
 	}
 }

@@ -14,6 +14,7 @@ class MenuScene: BaseScene {
 		super.sceneDidLoad()
 
 		AudioPlayer.shared.preloadSounds(names: SoundName.allCases.map { $0.rawValue })
+		AudioPlayer.shared.preloadLoopSounds(names: [SoundName.walkHorizontal.rawValue, SoundName.walkVertical.rawValue])
 		AudioPlayer.shared.playMusic(name: SoundName.titleScreen.rawValue)
 	}
 

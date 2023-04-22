@@ -71,11 +71,11 @@ class BombFlame: Entity {
 	}
 
 	func activate() {
-		for (index, part) in flameParts.enumerated() {
-			let isEnd = flameParts.count == index + 1
+		for (index, part) in self.flameParts.enumerated() {
+			let isEnd = self.flameParts.count == index + 1
 			let middleParts = TextureSource.Explosion.explosionMiddle
 			let endParts = TextureSource.Explosion.explosionEnd
-			let texutes = isEnd ? (isBlocked ? middleParts : endParts) : middleParts
+			let texutes = isEnd ? (self.isBlocked ? middleParts : endParts) : middleParts
 			let action = SKAction.animate(with: texutes, timePerFrame: 0.05)
 			let reverse = action.reversed()
 			part.run(SKAction.sequence([.wait(forDuration: 0.01 * Double(index)), action, reverse]), completion: {

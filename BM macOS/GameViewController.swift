@@ -37,7 +37,8 @@ class GameViewController: NSViewController {
 
 	private func updateSceneSize() {
 		let screenSize = self.view.frame.size
-		let minHeight = (Int(GameConfiguration.tileSize.height)) * GameConfiguration.levelHeight + 32
+		let statsViewHeight =  GameConfiguration.statsHeight
+		let minHeight = (Int(GameConfiguration.tileSize.height)) * GameConfiguration.levelHeight + statsViewHeight
 		let ratio = screenSize.width / screenSize.height
 		let width = min(CGFloat(minHeight) * ratio, 850)
 		let size = CGSize(width: width, height: CGFloat(minHeight))

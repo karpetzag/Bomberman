@@ -46,6 +46,17 @@ class AudioPlayer {
 		names.forEach { self.loadSound(name: $0) }
 	}
 
+	func preloadLoopSounds(names: [String]) {
+		for name in names {
+			var node = self.loopNodesPerSoundname[name]
+			if node == nil {
+				let newNode = self.makeNode()
+				self.loopNodesPerSoundname[name] = newNode
+				node = newNode
+			}
+		}
+	}
+
 	func playFx(name: String) {
 		guard !self.isFxMuted else {
 			return
@@ -58,7 +69,15 @@ class AudioPlayer {
 		self.currentNodeIndex = (self.currentNodeIndex + 1) % self.nodes.count
 		let node = self.nodes[currentNodeIndex]
 
+		if !self.engine.isRunning {
+			try? self.engine.start()
+		}
+
 		node.scheduleBuffer(buffer, at: nil)
+
+		if !node.isPlaying {
+			node.play()
+		}
 	}
 
 	func playLoopFx(name: String) {
@@ -78,6 +97,9 @@ class AudioPlayer {
 		}
 
 		node?.scheduleBuffer(buffer, at: nil, options: .loops)
+		if !self.engine.isRunning {
+			try? self.engine.start()
+		}
 		node?.play()
 	}
 
@@ -94,6 +116,10 @@ class AudioPlayer {
 
 		guard let audioFileBuffer = self.bufferPerSoundname[name] ?? self.loadSound(name: name) else {
 			return
+		}
+
+		if !self.engine.isRunning {
+			try? self.engine.start()
 		}
 
 		self.backgroundMusicNode.scheduleBuffer(audioFileBuffer, at: nil, options: .loops)
@@ -123,6 +149,10 @@ class AudioPlayer {
 
 	@discardableResult
 	private func loadSound(name: String) -> AVAudioPCMBuffer? {
+		if let buffer = self.bufferPerSoundname[name] {
+			return buffer
+		}
+
 		guard let path = Bundle.main.url(forResource: name, withExtension: nil) else {
 			assertionFailure("Invalid filename \(name)")
 			return nil

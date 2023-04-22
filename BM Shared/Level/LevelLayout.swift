@@ -66,10 +66,11 @@ struct LevelParameters {
 			enemies = [:]
 		}
 
-		return .init(powerUp: self.randomPowerUp(levelNumber: levelNumber, playerSkills: playerSkills),
-					 blocksDensity: blocksDensity,
-					 numberOfEnemiesPerKind: enemies,
-					 exitEnemies: [.oneal]
+		return LevelParameters(
+			powerUp: self.randomPowerUp(levelNumber: levelNumber, playerSkills: playerSkills),
+			blocksDensity: blocksDensity,
+			numberOfEnemiesPerKind: enemies,
+			exitEnemies: [.oneal]
 		)
 	}
 
@@ -80,7 +81,7 @@ struct LevelParameters {
 			if playerSkills.speed != .fast {
 				types.append(.speed)
 			}
-			return types.randomElement()!
+			return types.randomElement() ?? .bomb
 		case 11...20:
 			return [PowerUpType.bomb, PowerUpType.flames, .bombpass].randomElement()!
 		case 21...30:
@@ -105,14 +106,23 @@ struct LevelLayout {
 		let positon: TilePosition
 	}
 
+	struct PowerUpInfo {
+		let position: TilePosition
+		let type: PowerUpType
+	}
+
 	let playerStartPosition: TilePosition
-	let powerUpPosition: TilePosition
-	let powerUp: PowerUpType
+	let powerUpInfo: PowerUpInfo?
 	let exitPosition: TilePosition
 	let enemiesSpawnPosition: [EnemySpawnInfo]
 	let tiles: [[TileType]]
+	let enemiesKind: [Enemy.Kind]
 
-	static func generateBonusGameLayout(numberOfColumns: Int, numberOfRows: Int, enemies: [Enemy.Kind]) -> LevelLayout {
+	static func generateBonusGameLayout(
+		numberOfColumns: Int,
+		numberOfRows: Int,
+		level: Int
+	) -> LevelLayout {
 		var tiles = Array(repeating: [TileType](repeating: .empty, count: numberOfRows), count: numberOfColumns)
 		for column in (0..<numberOfColumns) {
 			for row in 0..<numberOfRows {
@@ -125,11 +135,15 @@ struct LevelLayout {
 				}
 			}
 		}
-		return LevelLayout(playerStartPosition: .init(row: 1, column: 1),
-						   powerUpPosition: .init(row: 0, column: 0),
-						   powerUp: .bomb,
-						   exitPosition: .init(row: 0, column: 0),
-						   enemiesSpawnPosition: [], tiles: tiles)
+
+		return LevelLayout(
+			playerStartPosition: .init(row: 1, column: 1),
+			powerUpInfo: nil,
+			exitPosition: .init(row: 0, column: 0),
+			enemiesSpawnPosition: [],
+			tiles: tiles,
+			enemiesKind: [Enemy.Kind.allCases.randomElement() ?? .balloom]
+		)
 	}
 
 	static func generate(numberOfColumns: Int, numberOfRows: Int, parameters: LevelParameters) -> LevelLayout {
@@ -195,11 +209,14 @@ struct LevelLayout {
 
 		let powerUpIndex = (0..<blocksPositions.count).randomElement()!
 		let powerUpPosition = blocksPositions[powerUpIndex]
-		let layout = LevelLayout(playerStartPosition: .init(row: 1, column: 1), powerUpPosition: powerUpPosition,
-								 powerUp: parameters.powerUp,
-								 exitPosition: exitPosition,
-								 enemiesSpawnPosition: enemyInfo,
-								 tiles: tiles)
+		let layout = LevelLayout(
+			playerStartPosition: .init(row: 1, column: 1),
+			powerUpInfo: PowerUpInfo(position: powerUpPosition, type: parameters.powerUp),
+			exitPosition: exitPosition,
+			enemiesSpawnPosition: enemyInfo,
+			tiles: tiles,
+			enemiesKind: Array(parameters.numberOfEnemiesPerKind.keys)
+		)
 
 		return layout
 	}

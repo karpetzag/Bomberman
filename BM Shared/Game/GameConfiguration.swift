@@ -14,9 +14,11 @@ enum GameConfiguration {
 	static let levelHeight = 13
 
 	static let gameDuration: TimeInterval = 200
-	static let bonusGameDuration: TimeInterval = 5
+	static let bonusGameDuration: TimeInterval = 15
 	static let numberOfLevels = 50
-	static let numberOfLevelsBeforeBonusGame = 5
+	static let numberOfLevelsBeforeBonusLevel = 5
+	static let numberOfBonusLevels = Self.numberOfLevels / Self.numberOfLevelsBeforeBonusLevel
 
 	static let tileSize = CGSize(width: 32, height: 32)
+	static let statsHeight = 32
 }

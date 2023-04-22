@@ -27,9 +27,9 @@ class Explosion: Entity {
 	}
 
 	func start() {
-		AudioPlayer.shared.playFx(name: "explosion.mp3")
-		center.start()
-		flames.forEach({ $0.activate() })
+		AudioPlayer.shared.playFx(name: SoundName.explosion.rawValue)
+		self.center.start()
+		self.flames.forEach({ $0.activate() })
 	}
 
 	override func update(dt: TimeInterval, level: GameLevel) {
@@ -67,7 +67,7 @@ class Explosion: Entity {
 			}
 		}
 
-		if isDone {
+		if self.isDone {
 			level.removeExplosion(self)
 		}
 	}

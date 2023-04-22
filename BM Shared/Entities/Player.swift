@@ -108,10 +108,10 @@ class Player: Entity, MovableEntity {
 								   speed: skills.speed.value,
 								   dt: dt)
 			if moved {
-				startWalkingAnimation(direction: direction)
+				self.startWalkingAnimation(direction: direction)
 			}
 		} else {
-			stopWalking()
+			self.stopWalking()
 		}
 	}
 

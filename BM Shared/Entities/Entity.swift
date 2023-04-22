@@ -24,7 +24,7 @@ class Entity {
 	func update(dt: TimeInterval, level: GameLevel) {}
 
 	func intersects(_ entity: Entity) -> Bool {
-		let frame = hitBox.intersection(entity.hitBox)
+		let frame = self.hitBox.intersection(entity.hitBox)
 		guard !frame.isNull else {
 			return false
 		}

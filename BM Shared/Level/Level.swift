@@ -111,9 +111,9 @@ class GameLevel {
 		if self.layout.exitPosition == position {
 			self.destroyBlock(position: position, animated: false)
 			self.addExit(position: position)
-		} else if layout.powerUpPosition == position {
+		} else if let powerUpInfo = layout.powerUpInfo, powerUpInfo.position == position {
 			self.destroyBlock(position: position, animated: false)
-			self.addPowerUp(layout.powerUp, position: position)
+			self.addPowerUp(powerUpInfo.type, position: position)
 		} else {
 			self.destroyBlock(position: position, animated: true)
 		}
@@ -138,7 +138,8 @@ class GameLevel {
 	}
 
 	func spawnEnemyFromExit() {
-		(0..<8).forEach { _ in
+		let numberOfEnemies = 8
+		(0..<numberOfEnemies).forEach { _ in
 			let row = self.tileMap.tileRowIndex(fromPosition: self.exit!.node.position)
 			let column = self.tileMap.tileColumnIndex(fromPosition: self.exit!.node.position)
 			self.addEnemy(Enemy(kind: .oneal), row: row, column: column)
