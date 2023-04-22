@@ -1,5 +1,11 @@
-# Bomberman 
+# Bomberman (Swift + Spritekit)
 
-Implementation of NES Bomberman
+Implementation of NES Bomberman (Swift + Spritekit)
 
-![Example](https://karpetzag.github.io/bomberman1.png)
+#### TODO: 
+
+- fix audio
+- fix ios support
+
+![Example](https://karpetzag.github.io/bomberman2.png)
+
