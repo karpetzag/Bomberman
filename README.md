@@ -6,6 +6,7 @@ Implementation of NES Bomberman (Swift + Spritekit)
 
 - fix audio
 - fix ios support
+- add gamepad support
 
 ![Example](https://karpetzag.github.io/bomberman2.png)
 
